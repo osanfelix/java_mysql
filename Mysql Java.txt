@@ -1,0 +1,93 @@
+-- MYSQL https://ubuntu.com/server/docs/databases-mysql
+1) Instalar
+	sudo apt install mysql-server
+2) Configurar dirección ip
+	sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+	... bind-address = 192.168.0.5
+3) comprobat estado y escucha
+	sudo service mysql status
+	sudo ss -tap | grep mysql
+4) Ejecutar mysql y crear usuario de prueba
+(si quiero provilegio solo en una base de datos concreta, cambiar
+*.* por base_de_datos.*)
+	sudo mysql
+	mysql> ....
+	-- LOCAL
+	CREATE USER ejemplo@localhost;
+	CREATE USER 'ejemplo'@'localhost' IDENTIFIED BY 'password';
+	GRANT ALL PRIVILEGES ON *.* TO 'ejemplo'@'localhost' WITH GRANT OPTION;
+	-- REMOTE
+	CREATE USER 'ejemplo'@'%' IDENTIFIED BY 'password';
+	GRANT ALL PRIVILEGES ON *.* TO 'ejemplo'@'%' WITH GRANT OPTION;
+	FLUSH PRIVILEGES;
+5) Crear la base de datos de prueba
+	mysql -u ejemplo -p
+	mysql> CREATE DATABASE DATOS;
+6) Desde windows acceder con mysqlworkbench a 192.168.0.5, usuario ejemplo, default schema DATOS.
+
+-- cosas útiles
+Desde mysqp>
+- Listar usuarios: select user from mysql.user;
+- Listar bases de datos: select db from mysql db;
+
+-- Creamos las tablas en mysql
+create table alumnos (
+	id_alumno int auto_increment,
+    nombre varchar(32) not null,
+    apellidos varchar(64) not null,
+    fecha_nac date not null,
+    primary key(id_alumno));
+	
+create table profesores (
+	id_profesor int auto_increment,
+    nombre varchar(32) not null,
+    apellidos varchar(64) not null,
+    primary key(id_profesor));
+	
+create table asignaturas(
+	id_asignatura int not null auto_increment,
+    nombre varchar(32) not null,
+    id_profesor int not null,
+    primary key (id_asignatura),
+    foreign key (id_profesor) references profesores(id_profesor));
+
+-- Con Constraint le pingo un nombre a la clave foránea
+create table matriculas(
+	id_alumno int not null,
+    id_asignatura int not null,
+    fecha YEAR not null,
+    nota int,
+    primary key (id_alumno, id_asignatura, fecha),
+    CONSTRAINT alumno foreign key (id_alumno) references alumnos(id_alumno),
+    CONSTRAINT asignatura foreign key (id_asignatura) references asignaturas(id_asignatura));
+
+
+-- Rellenando tablas
+INSERT INTO alumnos(nombre,apellidos,fecha_nac) VALUES
+    ('Elena','Pérez','1993-02-18'),
+    ('David','Sánchez','1992-11-13'),
+    ('Miguel','López','1992-12-05'),
+    ('Daniel','Gómez','1993-04-15'),
+    ('Ana','Martínez','1992-09-29');
+	
+INSERT INTO profesores(nombre,apellidos) VALUES
+    ('Javier','Sánchez'),
+    ('Teresa','López'),
+    ('Agustín','Domínguez');
+
+INSERT INTO asignaturas(nombre, id_profesor) VALUES
+    ('Fundamentos Tecnológicos',1),
+    ('Teoría de la Programación',2),
+    ('Bases de Datos',2),
+    ('Introducción a Algoritmos',3);
+	
+	
+-- Consultas
+-- Asignatura y profesor
+SELECT asignaturas.id_asignatura, asignaturas.nombre, profesores.nombre, profesores.apellidos from asignaturas, profesores where asignaturas.id_profesor = profesores.id_profesor;
+
+-- Transacción
+BEGIN;
+INSERT INTO profesores(id_profesor, nombre, apellidos) VALUES(50, "Pepito", "Perez");
+INSERT INTO asignaturas(nombre, id_profesor) VALUES("Mecánica complicada", 50);
+COMMIT;
