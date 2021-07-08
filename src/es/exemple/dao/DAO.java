@@ -1,13 +1,13 @@
-package es.exemple.dao;
+ package es.exemple.dao;
 
 import java.util.List;
 
 public interface DAO<T, K>
 {
-	void insertar (T a);
-	void modificar (T a);
-	void eliminar (T a);
-	List<T> obtenerTodos();
-	
-	T obtener(K id);
+	void insertar (T a) throws DAOException;
+	void modificar (T a) throws DAOException;
+	void eliminar (T a) throws DAOException;
+
+	List<T> obtenerTodos() throws DAOException;
+	T obtener(K id) throws DAOException;
 }

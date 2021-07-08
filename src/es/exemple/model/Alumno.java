@@ -7,13 +7,13 @@ import java.util.Objects;
 
 public class Alumno
 {
-	private Long id;		// Can be null
+	private Long id = null;		// Can be null
 	private String nombre;
 	private String apellidos;
 	private Date fecha_nac;
 
-	public Alumno(Long id_alumno, String nombre, String apellidos, Date fecha_nac) {
-		this.id = id_alumno;
+	public Alumno(String nombre, String apellidos, Date fecha_nac)
+	{
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fecha_nac = fecha_nac;
