@@ -23,7 +23,7 @@ public class ExampleMain
 		
 		try(Connection connection  = DriverManager.getConnection(jdbc,"ejemplo", "password"))
 		{
-			
+			// Do something with database...
 		} catch (SQLException ex) {
 			Logger.getLogger(ExampleMain.class.getName()).log(Level.SEVERE, null, ex);
 		}

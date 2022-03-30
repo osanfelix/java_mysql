@@ -2,9 +2,14 @@ package es.exemple.dao.mysql;
 
 import es.exemple.dao.AsignaturaDAO;
 import es.exemple.model.Asignatura;
+import java.sql.Connection;
 import java.util.List;
 
 public class MysqlAsignaturaDAO implements AsignaturaDAO{
+
+	MysqlAsignaturaDAO(Connection conn) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 
 	@Override
 	public void insertar(Asignatura a) {

@@ -4,39 +4,58 @@ import java.util.Objects;
 
 public class Matricula
 {
-	private long alumno;
-	private long asignatura;
-	private int year;
+	public class IdMatricula
+	{
+
+		private long alumno;
+		private long asignatura;
+		private int year;
+		
+		public IdMatricula(long alumno, long asignatura, int year)
+		{
+			this.alumno = alumno;
+			this.asignatura = asignatura;
+			this.year = year;
+		}
+		
+		public long getAlumno() {
+			return alumno;
+		}
+
+		public void setAlumno(long alumno) {
+			this.alumno = alumno;
+		}
+
+		public long getAsignatura() {
+			return asignatura;
+		}
+
+		public void setAsignatura(long asignatura) {
+			this.asignatura = asignatura;
+		}
+
+		public int getYear() {
+			return year;
+		}
+
+		public void setYear(int year) {
+			this.year = year;
+		}
+	}
+	
+	private IdMatricula id = null;
 	private Integer nota = null;
 
-	public Matricula(long alumno, long asignatura, int year) {
-		this.alumno = alumno;
-		this.asignatura = asignatura;
-		this.year = year;
+	public Matricula(IdMatricula id) {
+		this.id = id;
 	}
 
-	public long getAlumno() {
-		return alumno;
+	public IdMatricula getId() {
+		return id;
 	}
 
-	public void setAlumno(long alumno) {
-		this.alumno = alumno;
-	}
-
-	public long getAsignatura() {
-		return asignatura;
-	}
-
-	public void setAsignatura(long asignatura) {
-		this.asignatura = asignatura;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
+	public void setId(IdMatricula id) {
+		this.id = id;
 	}
 
 	public Integer getNota() {
@@ -49,11 +68,9 @@ public class Matricula
 
 	@Override
 	public int hashCode() {
-		int hash = 7;
-		hash = 79 * hash + (int) (this.alumno ^ (this.alumno >>> 32));
-		hash = 79 * hash + (int) (this.asignatura ^ (this.asignatura >>> 32));
-		hash = 79 * hash + this.year;
-		hash = 79 * hash + Objects.hashCode(this.nota);
+		int hash = 3;
+		hash = 47 * hash + Objects.hashCode(this.id);
+		hash = 47 * hash + Objects.hashCode(this.nota);
 		return hash;
 	}
 
@@ -69,13 +86,7 @@ public class Matricula
 			return false;
 		}
 		final Matricula other = (Matricula) obj;
-		if (this.alumno != other.alumno) {
-			return false;
-		}
-		if (this.asignatura != other.asignatura) {
-			return false;
-		}
-		if (this.year != other.year) {
+		if (!Objects.equals(this.id, other.id)) {
 			return false;
 		}
 		if (!Objects.equals(this.nota, other.nota)) {
@@ -83,10 +94,12 @@ public class Matricula
 		}
 		return true;
 	}
+	
+	
 
 	@Override
 	public String toString() {
-		return "Matricula{" + "alumno=" + alumno + ", asignatura=" + asignatura + ", year=" + year + ", nota=" + nota + '}';
+		return "Matricula{" + "alumno=" + id.getAlumno() + ", asignatura=" + id.getAsignatura() + ", year=" + id.getYear() + ", nota=" + nota + '}';
 	}
 	
 	
