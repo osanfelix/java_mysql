@@ -4,9 +4,8 @@ import java.util.Objects;
 
 public class Matricula
 {
-	public class IdMatricula
+	public static class IdMatricula
 	{
-
 		private long alumno;
 		private long asignatura;
 		private int year;
@@ -46,10 +45,10 @@ public class Matricula
 	private IdMatricula id = null;
 	private Integer nota = null;
 
-	public Matricula(IdMatricula id) {
-		this.id = id;
+	public Matricula(long id_alumno, long id_asignatura, int year) {
+		this.id = new IdMatricula(id_alumno, id_asignatura, year);
 	}
-
+	
 	public IdMatricula getId() {
 		return id;
 	}

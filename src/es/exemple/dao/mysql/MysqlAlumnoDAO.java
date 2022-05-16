@@ -25,7 +25,8 @@ public class MysqlAlumnoDAO implements AlumnoDAO
 	private final Connection conn;
 
 	// Constructor
-	public MysqlAlumnoDAO(Connection conn) {
+	public MysqlAlumnoDAO(Connection conn)
+	{
 		this.conn = conn;
 	}
 	
@@ -46,8 +47,7 @@ public class MysqlAlumnoDAO implements AlumnoDAO
 			}
 			if(stat.executeUpdate() == 0)	throw new DAOException(
 					"No se insertó nada");
-		}catch (SQLException ex)
-		{
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		}
 	}
@@ -64,8 +64,7 @@ public class MysqlAlumnoDAO implements AlumnoDAO
 			
 			if(stat.executeUpdate() == 0)	throw new DAOException(
 					"No se modificó nada");
-		}catch (SQLException ex)
-		{
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		}
 	}
@@ -79,8 +78,7 @@ public class MysqlAlumnoDAO implements AlumnoDAO
 			
 			if(stat.executeUpdate() == 0)	throw new DAOException(
 					"No se eliminó nada");
-		}catch (SQLException ex)
-		{
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		}
 	}
@@ -109,41 +107,31 @@ public class MysqlAlumnoDAO implements AlumnoDAO
 				while(rs.next())
 					alumnos.add(convertirAlumno(rs));
 			}
-		return alumnos;	
-		}catch (SQLException ex)
-		{
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		}
+		return alumnos;	
 	}
 
 	@Override
 	public Alumno obtener(Long id) throws DAOException
 	{
 		Alumno a = null;
-		ResultSet rs = null;
 		
 		try(PreparedStatement stat = conn.prepareStatement(GETONE))
 		{
 			stat.setLong(1, id);
-			rs = stat.executeQuery();
+			try(ResultSet rs = stat.executeQuery())
+			{
 			
 			if(rs.next())
 				a = convertirAlumno(rs);
 			else
 				throw new DAOException("No se ha encontrado ese registro " + MysqlAlumnoDAO.class);
-			
-			return a;
-
-		}catch (SQLException ex)
-		{
-			throw new DAOException("Error en SQL", ex);
-		}finally {	// nos lo pordriamos ahorrar, como en el método anterior
-			if(rs != null)	try {
-				rs.close();
-			} catch (SQLException ex) {
-				throw new DAOException("Error en SQL", ex);
 			}
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
 		}
+		return a;
 	}
-	
 }

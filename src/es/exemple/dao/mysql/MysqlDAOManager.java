@@ -7,6 +7,9 @@ import es.exemple.dao.DAOManager;
 import es.exemple.dao.MatriculaDAO;
 import es.exemple.dao.ProfesorDAO;
 import es.exemple.model.Alumno;
+import es.exemple.model.Asignatura;
+import es.exemple.model.Matricula;
+import es.exemple.model.Profesor;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -63,17 +66,37 @@ public class MysqlDAOManager implements DAOManager
 	}
 
 	@Override
-	public MatriculaDAO getMAtriculaDAO() {
+	public MatriculaDAO getMatriculaDAO() {
 		if(matriculas == null)
 			matriculas = new MysqlMatriculaDAO(conn);
 		return matriculas;
 	}
 	
-	// DELETE, inly for testing
+	// DELETE, only for testing
 	public static void main (String args[]) throws SQLException, DAOException
 	{
-		MysqlDAOManager manager = new MysqlDAOManager("10.0.0.68", "DATOS", "ejemplo", "password");
+		DAOManager manager = new MysqlDAOManager(
+				"10.0.0.68", "DATOS", "ejemplo", "password");
+		
+//		manager.getMatriculaDAO().insertar(new Matricula(1, 1, 1999));
+//		manager.getMatriculaDAO().insertar(new Matricula(1, 2, 1999));
+//		manager.getMatriculaDAO().insertar(new Matricula(1, 3, 1999));
+//		
+//		manager.getMatriculaDAO().insertar(new Matricula(2, 1, 1999));
+//		manager.getMatriculaDAO().insertar(new Matricula(2, 2, 1999));
+//		manager.getMatriculaDAO().insertar(new Matricula(2, 3, 1999));
+//		manager.getMatriculaDAO().insertar(new Matricula(2, 4, 1999));
+		
+		
 		List<Alumno> alumnos = manager.getAlumnoDAO().obtenerTodos();
+		List<Profesor> profesores = manager.getProfesorDAO().obtenerTodos();
+		List<Asignatura> asignaturas = manager.getAsignaturaDAO().obtenerTodos();
+		List<Matricula> matriculas = manager.getMatriculaDAO().obtenerTodos();
+		
 		alumnos.forEach(s -> System.out.println(s));
+		profesores.forEach(s -> System.out.println(s));
+		asignaturas.forEach(s -> System.out.println(s));
+		matriculas.forEach(s -> System.out.println(s));
+		
 	}
 }

@@ -156,7 +156,9 @@ public class ExampleMain
 		try {
 			(new ExampleMain()).exemple1();
 			(new ExampleMain()).exemple2();
-			(new ExampleMain()).exemple3();	// Insert
+//			(new ExampleMain()).exemple3();	// Insert
+
+
 		} catch (SQLException ex) {
 			Logger.getLogger(ExampleMain.class.getName()).log(Level.SEVERE, null, ex);
 		}
