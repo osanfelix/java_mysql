@@ -32,7 +32,7 @@ public class MysqlDAOManager implements DAOManager
 	ProfesorDAO profesores = null;
 	AsignaturaDAO asignaturas = null;
 	MatriculaDAO matriculas = null;
-	
+	static DAOManager manager = null;
 	
 	public MysqlDAOManager(String host, String database, String user, String passwd) throws SQLException
 	{
@@ -98,5 +98,15 @@ public class MysqlDAOManager implements DAOManager
 		asignaturas.forEach(s -> System.out.println(s));
 		matriculas.forEach(s -> System.out.println(s));
 		
+	}
+
+	public static DAOManager getManager() throws SQLException
+	{
+		if(manager == null)
+		{
+			manager = new MysqlDAOManager(
+				"10.0.0.68", "DATOS", "ejemplo", "password");
+		}
+		return manager;    
 	}
 }
